@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>LangExtract Entity Extractor</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>LangExtract Entity Extractor</h1>
+        
+        <!-- Checkboxes -->
+        <div class="checkbox-container">
+            <label class="checkbox-label">
+                <input type="checkbox" id="lxPrompt">
+                <span class="checkmark"></span>
+                LX Prompt
+            </label>
+            <label class="checkbox-label">
+                <input type="checkbox" id="lxData">
+                <span class="checkmark"></span>
+                LX Data
+            </label>
+        </div>
+        
+        <!-- Main panels -->
+        <div class="panels-container">
+            <!-- Input Panel -->
+            <div class="panel input-panel">
+                <div class="panel-header">
+                    <h3>Input</h3>
+                </div>
+                <div class="panel-content">
+                    <textarea id="inputText" placeholder="Enter your text here..."></textarea>
+                </div>
+            </div>
+            
+            <!-- Output Panel -->
+            <div class="panel output-panel">
+                <div class="panel-header">
+                    <h3>Output</h3>
+                </div>
+                <div class="panel-content">
+                    <div id="outputContent" class="output-content"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Process Button -->
+        <button id="processBtn">Process Text</button>
+        
+        <!-- Source Mapping Display -->
+        <div id="sourceMapping" class="source-mapping"></div>
+    </div>
+    <script src="/static/app.js"></script>
+</body>
+</html>

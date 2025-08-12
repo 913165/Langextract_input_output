@@ -1,0 +1,367 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #2c2c2c;
+    margin: 0;
+    padding: 20px;
+    color: #ffffff;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    background: #2c2c2c;
+}
+
+h1 {
+    text-align: center;
+    color: #ffffff;
+    margin-bottom: 30px;
+    font-size: 2.5em;
+    font-weight: 300;
+}
+
+/* Checkbox styling */
+.checkbox-container {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 30px;
+    justify-content: center;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 16px;
+    color: #ffffff;
+    position: relative;
+    padding-left: 35px;
+}
+
+.checkbox-label input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.checkmark {
+    position: absolute;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #4a4a4a;
+    border: 2px solid #666;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.checkbox-label:hover input ~ .checkmark {
+    background-color: #5a5a5a;
+    border-color: #888;
+}
+
+.checkbox-label input:checked ~ .checkmark {
+    background-color: #007acc;
+    border-color: #007acc;
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.checkbox-label input:checked ~ .checkmark:after {
+    display: block;
+}
+
+.checkbox-label .checkmark:after {
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+/* Panels container */
+.panels-container {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 30px;
+    height: 600px;
+}
+
+/* Panel styling */
+.panel {
+    flex: 1;
+    background: #404040;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease;
+}
+
+.panel:hover {
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4);
+    transform: translateY(-2px);
+}
+
+.panel-header {
+    background: #505050;
+    padding: 15px 20px;
+    border-bottom: 1px solid #606060;
+}
+
+.panel-header h3 {
+    margin: 0;
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.panel-content {
+    flex: 1;
+    padding: 20px;
+    overflow: hidden;
+}
+
+/* Input panel specific */
+.input-panel .panel-content {
+    display: flex;
+    flex-direction: column;
+}
+
+#inputText {
+    flex: 1;
+    background: #404040;
+    border: none;
+    color: #ffffff;
+    font-size: 14px;
+    line-height: 1.6;
+    resize: none;
+    outline: none;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    transition: background-color 0.2s ease;
+}
+
+#inputText::placeholder {
+    color: #888;
+}
+
+/* Output panel specific */
+.output-content {
+    height: 100%;
+    overflow-y: auto;
+    color: #ffffff;
+    font-size: 14px;
+    line-height: 1.6;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+}
+
+/* Entity styling */
+.entity {
+    display: inline-block;
+    background: #007acc;
+    color: white;
+    padding: 2px 6px;
+    margin: 2px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    font-weight: 500;
+}
+
+.entity:hover {
+    background: #005a9e;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 122, 204, 0.4);
+}
+
+.entity.highlighted {
+    background: #ff6b35;
+    box-shadow: 0 0 10px rgba(255, 107, 53, 0.6);
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 10px rgba(255, 107, 53, 0.6); }
+    50% { box-shadow: 0 0 20px rgba(255, 107, 53, 0.8); }
+    100% { box-shadow: 0 0 10px rgba(255, 107, 53, 0.6); }
+}
+
+/* Extraction group styling */
+.extraction-group {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #4a4a4a;
+    border-radius: 6px;
+    border-left: 4px solid #007acc;
+}
+
+.extraction-group h4 {
+    margin: 0 0 15px 0;
+    color: #007acc;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+/* Source mapping */
+.source-mapping {
+    background: #404040;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 20px;
+    min-height: 100px;
+    color: #ffffff;
+    display: none;
+    border-left: 4px solid #ff6b35;
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.source-mapping.visible {
+    display: block;
+}
+
+.source-mapping h4 {
+    margin-top: 0;
+    color: #007acc;
+    border-bottom: 1px solid #606060;
+    padding-bottom: 10px;
+}
+
+.source-highlight {
+    background: #ff6b35;
+    color: white;
+    padding: 2px 4px;
+    border-radius: 3px;
+    font-weight: bold;
+    animation: highlightFade 0.3s ease-in;
+}
+
+@keyframes highlightFade {
+    from {
+        background: #ff6b35;
+        transform: scale(1.1);
+    }
+    to {
+        background: #ff6b35;
+        transform: scale(1);
+    }
+}
+
+/* Process button */
+#processBtn {
+    display: block;
+    width: 200px;
+    margin: 0 auto;
+    padding: 15px 30px;
+    background: #007acc;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+#processBtn:hover {
+    background: #005a9e;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 122, 204, 0.4);
+}
+
+#processBtn:active {
+    transform: translateY(0);
+}
+
+#processBtn:disabled {
+    background: #666;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Loading state */
+.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+/* Scrollbar styling */
+.output-content::-webkit-scrollbar,
+#inputText::-webkit-scrollbar {
+    width: 8px;
+}
+
+.output-content::-webkit-scrollbar-track,
+#inputText::-webkit-scrollbar-track {
+    background: #404040;
+}
+
+.output-content::-webkit-scrollbar-thumb,
+#inputText::-webkit-scrollbar-thumb {
+    background: #606060;
+    border-radius: 4px;
+}
+
+.output-content::-webkit-scrollbar-thumb:hover,
+#inputText::-webkit-scrollbar-thumb:hover {
+    background: #707070;
+}
+
+/* Responsive design */
+@media (max-width: 1200px) {
+    .panels-container {
+        flex-direction: column;
+        height: auto;
+    }
+    
+    .panel {
+        height: 400px;
+    }
+}
+
+@media (max-width: 768px) {
+    .checkbox-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+    
+    .panels-container {
+        gap: 20px;
+    }
+    
+    .panel-content {
+        padding: 15px;
+    }
+    
+    .container {
+        padding: 10px;
+    }
+    
+    h1 {
+        font-size: 2em;
+    }
+}
