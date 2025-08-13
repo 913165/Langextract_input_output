@@ -2,57 +2,127 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PharmExtract - Pharmaceutical Report Analysis</title>
-    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
-        <h1>PharmExtract</h1>
-        <p class="subtitle">Pharmaceutical Report Analysis & Entity Extraction</p>
-        
-        <!-- Checkboxes -->
-        <div class="checkbox-container">
-            <label class="checkbox-label">
-                <input type="checkbox" id="lxPrompt">
-                <span class="checkmark"></span>
-                Clinical Trial Reports
-            </label>
-            <label class="checkbox-label">
-                <input type="checkbox" id="lxData">
-                <span class="checkmark"></span>
-                Drug Safety Reports
-            </label>
-        </div>
-        
-        <!-- Main panels -->
-        <div class="panels-container">
-            <!-- Input Panel -->
-            <div class="panel input-panel">
-                <div class="panel-header">
-                    <h3>Input</h3>
-                </div>
-                <div class="panel-content">
-                    <textarea id="inputText" placeholder="Enter your text here..."></textarea>
-                </div>
+        <!-- Left Sidebar: Sample Reports -->
+        <aside class="sample-reports-sidebar">
+            <h3>Sample Reports</h3>
+            
+            <div class="sample-instructions">
+                <ol>
+                    <li>Select a sample or paste your report</li>
+                    <li>Click 'Process' to start for pasted reports</li>
+                    <li>Hover output sections to highlight source text</li>
+                </ol>
             </div>
             
-            <!-- Output Panel -->
-            <div class="panel output-panel">
-                <div class="panel-header">
-                    <h3>Output</h3>
-                </div>
-                <div class="panel-content">
-                    <div id="outputContent" class="output-content"></div>
-                </div>
+            <div class="sample-buttons">
+                <button class="sample-btn" onclick="loadSampleReport('cardiovascular')" title="Load cardiovascular clinical trial report">
+                    <span class="sample-title">Hypertension Drug Study</span>
+                    <span class="sample-tag">CLINICAL TRIAL</span>
+                </button>
+                
+                <button class="sample-btn" onclick="loadSampleReport('oncology')" title="Load oncology phase III study report">
+                    <span class="sample-title">Phase II Diabetes Trial</span>
+                    <span class="sample-tag">CLINICAL TRIAL</span>
+                </button>
+                
+                <button class="sample-btn" onclick="loadSampleReport('pharmacokinetic')" title="Load drug interaction study report">
+                    <span class="sample-title">Drug Interaction Study</span>
+                    <span class="sample-tag">PHARMACOKINETIC STUDY</span>
+                </button>
+                
+                <button class="sample-btn" onclick="loadSampleReport('safety')" title="Load adverse event report">
+                    <span class="sample-title">Adverse Event Report</span>
+                    <span class="sample-tag">ADVERSE EVENT</span>
+                </button>
+                
+                <button class="sample-btn" onclick="loadSampleReport('regulatory')" title="Load regulatory submission report">
+                    <span class="sample-title">Regulatory Submission Excerpt</span>
+                    <span class="sample-tag">REGULATORY SUBMISSION</span>
+                </button>
             </div>
-        </div>
-        
-        <!-- Process Button -->
-        <button id="processBtn">Process Text</button>
-        
-        <!-- Source Mapping Display -->
-        <div id="sourceMapping" class="source-mapping"></div>
+            
+            <div class="sample-tip">
+                <span class="tip-icon">💡</span>
+                Try tweaking a sample (remove sections, add extra results, or paste your own report) to see how the demo responds.
+            </div>
+        </aside>
+
+        <!-- Right Side: Main Content Area -->
+        <main class="panels-container">
+            <!-- Header Section -->
+            <header class="app-header">
+                <h1>PharmExtract</h1>
+                <p class="subtitle">Pharmaceutical Report Analysis & Entity Extraction</p>
+                
+                <div class="checkbox-container">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="lxPrompt">
+                        <span class="checkmark"></span>
+                        LX Generated Prompt
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="lxData">
+                        <span class="checkmark"></span>
+                        LX Structured Output
+                    </label>
+                </div>
+            </header>
+
+            <!-- Input and Output Panels Row -->
+            <div class="panels-row">
+                <!-- Input Panel -->
+                <section class="panel input-panel">
+                    <div class="panel-header">
+                        <h3>Input</h3>
+                    </div>
+                    <div class="panel-content">
+                        <textarea 
+                            id="inputText" 
+                            placeholder="Enter pharmaceutical report here or load a sample from above..."
+                            rows="12"
+                        ></textarea>
+                    </div>
+                </section>
+
+                <!-- Output Panel -->
+                <section class="panel output-panel">
+                    <div class="panel-header">
+                        <h3>Output</h3>
+                    </div>
+                    <div class="panel-content">
+                        <div id="outputContent">
+                            <div class="empty-state">
+                                <p>👆 Select a sample report or paste your own text above</p>
+                                <p>Then click "Process" to extract pharmaceutical entities</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Process Button -->
+            <div class="button-container">
+                <button id="processBtn" type="button">
+                    Process
+                </button>
+            </div>
+
+            <!-- Source Mapping Panel -->
+            <section class="source-mapping" id="sourceMapping">
+                <!-- Source mapping content will be populated by JavaScript -->
+            </section>
+        </main>
     </div>
-    <script src="/static/app.js"></script>
+
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
 </body>
 </html>

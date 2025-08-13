@@ -7,7 +7,7 @@ load_dotenv()
 # Set the API key as an environment variable
 os.environ["LANGEXTRACT_API_KEY"] = os.getenv("LANGEXTRACT_API_KEY", "")
 
-from flask import Flask, request, jsonify, send_from_directory
+from flask import Flask, request, jsonify, render_template
 import traceback
 
 # Import our refactored modules
@@ -26,7 +26,7 @@ Config.validate_api_key()
 @app.route("/")
 def index():
     """Serve the main application page"""
-    return send_from_directory("templates", "index.html")
+    return render_template("index.html")
 
 @app.route("/static/<path:path>")
 def send_static(path):

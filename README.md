@@ -112,7 +112,14 @@ PharmExtract handles specialized pharmaceutical domains:
 
 ## UI Components
 
-### Input Panel (Left)
+### Sample Reports Sidebar (Left)
+- **Quick Access**: Five pre-loaded pharmaceutical report templates
+- **Report Types**: Clinical trials, pharmacokinetic studies, adverse events, regulatory submissions
+- **Instructions**: Step-by-step guidance for using the application
+- **Interactive Buttons**: Click any sample to instantly load it into the input panel
+- **Professional Examples**: Real-world pharmaceutical report formats
+
+### Input Panel (Center)
 - Large text area for pharmaceutical reports
 - Sample cardiovascular clinical trial report pre-loaded
 - Real-time source highlighting during entity hover
