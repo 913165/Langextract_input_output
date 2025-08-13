@@ -14,26 +14,28 @@ body {
 }
 
 .container {
-    max-width: 1400px;
+    max-width: 1800px; /* Increased from 1400px to fit Windows better */
     margin: 0 auto;
-    padding: 20px;
+    padding: 10px 5px; /* Reduced padding further */
     display: flex;
-    gap: 25px;
-    align-items: flex-start;
+    flex-direction: column; /* Changed to column layout to stack header above content */
+    gap: 15px; /* Reduced gap from 25px */
+    align-items: stretch; /* Changed to stretch to make header full width */
 }
 
 /* Sample Reports Sidebar - Left Side */
 .sample-reports-sidebar {
-    width: 320px;
+    width: 350px; /* Reduced from 380px to save space */
     background: linear-gradient(145deg, #2c3e50 0%, #34495e 100%);
     border-radius: 12px;
-    padding: 25px;
-    height: fit-content;
+    padding: 20px; /* Reduced padding from 25px */
+    height: 850px; /* Increased from 800px to make it a little longer */
     position: relative;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    margin-top: 120px;
+    margin-top: 0; /* Removed margin-top to align with input/output panels */
+    overflow-y: auto; /* Add scrollbar if content overflows */
 }
 
 .sample-reports-sidebar h3 {
@@ -127,29 +129,17 @@ body {
     font-weight: 500;
 }
 
-/* Main Content Area - Right Side */
-.panels-container {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-/* Input and Output Panels Container */
-.panels-row {
-    display: flex;
-    gap: 20px;
-    margin-bottom: 20px;
-}
-
-.input-panel, .output-panel {
-    flex: 1;
-}
-
-/* Header Section */
+/* Header Section - Centered across entire application */
 .app-header {
     text-align: center;
-    margin-bottom: 0;
+    margin-bottom: 15px; /* Reduced margin from 20px */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    position: relative;
+    z-index: 10;
 }
 
 .app-header h1 {
@@ -159,6 +149,7 @@ body {
     font-weight: 300;
     letter-spacing: 1px;
     text-shadow: 0 2px 10px rgba(79, 195, 247, 0.3);
+    text-align: center;
 }
 
 .app-header .subtitle {
@@ -167,6 +158,52 @@ body {
     font-size: 1.1em;
     font-weight: 300;
     letter-spacing: 0.5px;
+    text-align: center;
+}
+
+/* Content area with sidebar and panels */
+.content-area {
+    display: flex;
+    gap: 15px; /* Reduced gap from 25px */
+    align-items: flex-start;
+    margin-top: 0; /* Ensure no extra spacing */
+}
+
+/* Main Content Area - Right Side */
+.panels-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 0; /* Remove bottom margin */
+}
+
+/* Input and Output Panels Container */
+.panels-row {
+    display: flex;
+    gap: 15px; /* Reduced gap from 30px */
+    margin-bottom: 0; /* Remove bottom margin completely */
+}
+
+.input-panel, .output-panel {
+    flex: 1;
+}
+
+/* Force remove any remaining bottom spacing */
+.input-panel, .output-panel {
+    flex: 1;
+    margin-bottom: 8px !important; /* Add minimal bottom margin for polish */
+    padding-bottom: 0 !important;
+}
+
+.input-panel .panel-content, .output-panel .panel-content {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+.input-panel .panel, .output-panel .panel {
+    margin-bottom: 8px !important; /* Add minimal bottom margin for polish */
+    padding-bottom: 0 !important;
 }
 
 /* Checkbox styling */
@@ -235,17 +272,19 @@ body {
     box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 0; /* Remove any panel bottom margin */
 }
 
 .panel-header {
     background: linear-gradient(90deg, #4fc3f7 0%, #29b6f6 100%);
     padding: 18px 25px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 0; /* Remove header bottom margin */
 }
 
 .panel-header h3 {
     color: #ffffff;
-    margin: 0;
+    margin: 0; /* Remove all margins from header text */
     font-size: 16px;
     font-weight: 600;
     letter-spacing: 0.5px;
@@ -253,8 +292,11 @@ body {
 
 /* Panel content to accommodate larger textareas */
 .panel-content {
-    padding: 10px; /* Reduced padding */
+    padding: 8px 8px 0 8px; /* No bottom padding */
     min-height: 708px; /* Increased height by 10% from 644px */
+    margin-bottom: 0; /* Remove bottom margin */
+    display: flex; /* Make it a flex container */
+    flex-direction: column; /* Stack content vertically */
 }
 
 /* Output panel content - fixed height with scroll */
@@ -263,20 +305,23 @@ body {
     overflow-y: auto;
 }
 
-/* Textarea styling */
+/* Ensure textareas fill the space completely */
 #inputText, #outputContent {
     width: 100%;
     min-height: 629px; /* Increased height by 10% from 572px */
     background: #1e2a3a;
-    border: 2px solid #4a5568;
+    border: 1px solid #4a5568; /* Made border thinner from 2px to 1px */
     border-radius: 8px;
     color: #e0e0e0;
-    padding: 18px;
+    padding: 15px 15px 0 15px; /* No bottom padding */
     font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
     font-size: 14px;
     line-height: 1.6;
     resize: vertical;
     transition: all 0.3s ease;
+    margin-bottom: 0 !important; /* Force remove bottom margin */
+    padding-bottom: 0 !important; /* Force remove bottom padding */
+    flex: 1; /* Take up all available space */
 }
 
 #inputText:focus, #outputContent:focus {
@@ -293,7 +338,7 @@ body {
 .button-container {
     display: flex;
     justify-content: center;
-    margin: 20px 0;
+    margin: 10px 0 0 0; /* Only top margin, no bottom */
 }
 
 /* Process button styling */
@@ -343,7 +388,8 @@ body {
     background: linear-gradient(145deg, #2c3e50 0%, #34495e 100%);
     border-radius: 12px;
     padding: 20px;
-    margin-top: 20px;
+    margin-top: 10px; /* Reduced from 20px */
+    margin-bottom: 0; /* No bottom margin */
     border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
     opacity: 0;
