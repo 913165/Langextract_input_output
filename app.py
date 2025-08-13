@@ -59,14 +59,18 @@ def predict():
         data = request.get_json()
         input_text = data.get("text", "")
         examples_type = data.get("examples_type", "medical")
+        model_id = data.get("model_id", "gemini-2.5-pro")  # Default to current config model
         
         if not input_text:
             return jsonify({"error": "No input text provided."}), 400
         
-        # Extract entities with selected examples type
+        print(f"Processing with model: {model_id}")
+        
+        # Extract entities with selected examples type and model
         result = extraction_service.extract_entities(
             input_text, 
-            examples_type=examples_type
+            examples_type=examples_type,
+            model_id=model_id
         )
         
         # Save results
@@ -80,7 +84,8 @@ def predict():
             "result": {"extractions": extractions},
             "message": f"Extraction completed and saved to {Config.OUTPUT_FILENAME}",
             "extractions_count": extractions_count,
-            "examples_type": examples_type
+            "examples_type": examples_type,
+            "model_used": model_id
         })
             
     except ValueError as e:

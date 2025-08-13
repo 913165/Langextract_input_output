@@ -188,6 +188,7 @@ async function processText() {
     const outputContent = document.getElementById('outputContent');
     const sourceMapping = document.getElementById('sourceMapping');
     const processBtn = document.getElementById('processBtn');
+    const modelSelect = document.getElementById('modelSelect');
     
     if (!inputText.trim()) {
         outputContent.innerHTML = '<p style="color: #888;">Please enter some text.</p>';
@@ -200,15 +201,19 @@ async function processText() {
     sourceMapping.classList.remove('visible');
     
     try {
-        // Get document type selection
+        // Get document type selection and selected model
         const { examplesType } = getDocumentType();
+        const selectedModel = modelSelect.value;
+        
+        console.log(`Processing with model: ${selectedModel}`);
         
         const response = await fetch('/predict', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ 
                 text: inputText,
-                examples_type: examplesType
+                examples_type: examplesType,
+                model_id: selectedModel
             })
         });
         
@@ -222,8 +227,8 @@ async function processText() {
         // Process and display the results
         displayExtractions(inputText, data.result);
         
-        // Show success message with extraction count and type info
-        let message = `Extraction completed! Found ${data.extractions_count} entities.`;
+        // Show success message with extraction count, type info, and model used
+        let message = `Extraction completed! Found ${data.extractions_count} entities using ${selectedModel}.`;
         if (data.examples_type) {
             message += ` (Examples: ${data.examples_type})`;
         }
@@ -656,3 +661,47 @@ function highlightEntitiesInInput(inputText, extractions) {
     
     return highlightedText;
 }
+
+// Get the currently selected model
+function getCurrentModel() {
+    const modelSelect = document.getElementById('modelSelect');
+    return modelSelect ? modelSelect.value : 'gemini-2.5-pro';
+}
+
+// Update model display when selection changes
+function updateModelDisplay() {
+    const modelSelect = document.getElementById('modelSelect');
+    if (modelSelect) {
+        const selectedModel = modelSelect.value;
+        console.log(`Model changed to: ${selectedModel}`);
+        
+        // You can add additional UI updates here if needed
+        // For example, updating a status indicator or showing model capabilities
+    }
+}
+
+// Add event listener for model selection changes
+document.addEventListener('DOMContentLoaded', function() {
+    const modelSelect = document.getElementById('modelSelect');
+    const modelSelection = document.querySelector('.model-selection');
+    
+    if (modelSelect) {
+        modelSelect.addEventListener('change', updateModelDisplay);
+        
+        // Add focus/blur events for visual feedback
+        modelSelect.addEventListener('focus', function() {
+            if (modelSelection) {
+                modelSelection.classList.add('active');
+            }
+        });
+        
+        modelSelect.addEventListener('blur', function() {
+            if (modelSelection) {
+                modelSelection.classList.remove('active');
+            }
+        });
+        
+        // Log initial model selection
+        console.log(`Initial model selected: ${modelSelect.value}`);
+    }
+});

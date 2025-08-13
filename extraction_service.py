@@ -9,13 +9,17 @@ class ExtractionService:
     def __init__(self):
         self.config = Config
     
-    def extract_entities(self, input_text, examples_type="medical"):
+    def extract_entities(self, input_text, examples_type="medical", model_id=None):
         """Extract entities from input text using LangExtract"""
         if not self.config.LANGEXTRACT_API_KEY:
             raise ValueError("API key not configured. Please check your .env file.")
         
+        # Use provided model_id or fall back to config default
+        model_to_use = model_id if model_id else self.config.MODEL_ID
+        
         print(f"Processing text with {len(input_text)} characters...")
         print(f"Using examples type: {examples_type}")
+        print(f"Using model: {model_to_use}")
         
         # Import here to avoid circular imports
         from prompt_instructions import PromptInstructions
@@ -36,7 +40,7 @@ class ExtractionService:
             text_or_documents=input_text,
             prompt_description=prompt,
             examples=examples,
-            model_id=self.config.MODEL_ID,
+            model_id=model_to_use,
             api_key=self.config.LANGEXTRACT_API_KEY,
         )
         
