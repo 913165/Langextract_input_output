@@ -13,10 +13,18 @@ body {
 }
 
 h1 {
+    color: #007acc;
     text-align: center;
-    color: #ffffff;
-    margin-bottom: 30px;
+    margin-bottom: 10px;
     font-size: 2.5em;
+    font-weight: 300;
+}
+
+.subtitle {
+    color: #888;
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 1.1em;
     font-weight: 300;
 }
 
@@ -167,49 +175,100 @@ h1 {
 /* Entity styling */
 .entity {
     display: inline-block;
-    background: #007acc;
-    color: white;
-    padding: 2px 6px;
-    margin: 2px;
-    border-radius: 4px;
+    background: transparent;
+    color: #ffffff;
+    padding: 2px 0px;
+    margin: 2px 0px;
+    border-radius: 0px;
     cursor: pointer;
     transition: all 0.2s ease;
     position: relative;
     font-weight: 500;
+    border: none;
 }
 
 .entity:hover {
-    background: #005a9e;
-    transform: translateY(-1px);
-    box-shadow: 0 2px 8px rgba(0, 122, 204, 0.4);
+    background: transparent;
+    border-color: transparent;
+    text-decoration: underline;
+    text-decoration-color: #ff6b35;
+    text-underline-offset: 3px;
+    transform: none;
+    box-shadow: none;
 }
 
+/* Highlighted entity in output (when its source is highlighted in input) */
 .entity.highlighted {
-    background: #ff6b35;
-    box-shadow: 0 0 10px rgba(255, 107, 53, 0.6);
-    animation: pulse 1s infinite;
+    text-decoration: underline;
+    text-decoration-color: #ff6b35;
+    text-underline-offset: 3px;
+    background: transparent;
+    border: none;
 }
 
-@keyframes pulse {
-    0% { box-shadow: 0 0 10px rgba(255, 107, 53, 0.6); }
-    50% { box-shadow: 0 0 20px rgba(255, 107, 53, 0.8); }
-    100% { box-shadow: 0 0 10px rgba(255, 107, 53, 0.6); }
-}
-
-/* Extraction group styling */
+/* Extraction group styling - Medical findings sections */
 .extraction-group {
-    margin-bottom: 20px;
-    padding: 15px;
+    margin-bottom: 25px;
+    padding: 20px;
     background: #4a4a4a;
-    border-radius: 6px;
+    border-radius: 8px;
     border-left: 4px solid #007acc;
 }
 
 .extraction-group h4 {
-    margin: 0 0 15px 0;
+    margin: 0 0 20px 0;
     color: #007acc;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 2px solid #606060;
+    padding-bottom: 10px;
+}
+
+/* Medical findings specific styling */
+.extraction-group[data-category="lungs"] h4 {
+    border-left-color: #4CAF50;
+}
+
+.extraction-group[data-category="liver"] h4 {
+    border-left-color: #FF9800;
+}
+
+.extraction-group[data-category="gallbladder"] h4 {
+    border-left-color: #E91E63;
+}
+
+.extraction-group[data-category="biliary"] h4 {
+    border-left-color: #9C27B0;
+}
+
+.extraction-group[data-category="pancreas"] h4 {
+    border-left-color: #FF5722;
+}
+
+/* Report structure styling */
+.extraction-group[data-category="report_title"] h4 {
+    border-left-color: #2196F3;
+    font-size: 20px;
+    color: #2196F3;
+}
+
+.extraction-group[data-category="clinical_indication"] h4 {
+    border-left-color: #FF5722;
+}
+
+.extraction-group[data-category="comparison"] h4 {
+    border-left-color: #9E9E9E;
+}
+
+.extraction-group[data-category="technique"] h4 {
+    border-left-color: #607D8B;
+}
+
+.extraction-group[data-category="impression"] h4 {
+    border-left-color: #FFC107;
+    font-weight: 700;
 }
 
 /* Source mapping */

@@ -58,12 +58,16 @@ def predict():
         # Get input data
         data = request.get_json()
         input_text = data.get("text", "")
+        examples_type = data.get("examples_type", "medical")
         
         if not input_text:
             return jsonify({"error": "No input text provided."}), 400
         
-        # Extract entities
-        result = extraction_service.extract_entities(input_text)
+        # Extract entities with selected examples type
+        result = extraction_service.extract_entities(
+            input_text, 
+            examples_type=examples_type
+        )
         
         # Save results
         extraction_service.save_results(result)
@@ -75,7 +79,8 @@ def predict():
         return jsonify({
             "result": {"extractions": extractions},
             "message": f"Extraction completed and saved to {Config.OUTPUT_FILENAME}",
-            "extractions_count": extractions_count
+            "extractions_count": extractions_count,
+            "examples_type": examples_type
         })
             
     except ValueError as e:

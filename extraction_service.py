@@ -9,20 +9,33 @@ class ExtractionService:
     def __init__(self):
         self.config = Config
     
-    def extract_entities(self, input_text):
+    def extract_entities(self, input_text, examples_type="medical"):
         """Extract entities from input text using LangExtract"""
         if not self.config.LANGEXTRACT_API_KEY:
             raise ValueError("API key not configured. Please check your .env file.")
         
         print(f"Processing text with {len(input_text)} characters...")
+        print(f"Using examples type: {examples_type}")
         
         # Import here to avoid circular imports
-        from extraction_prompts import ExtractionPrompts
+        from prompt_instructions import PromptInstructions
+        from report_examples import ReportExamples
+        
+        # Always use general prompt
+        prompt = PromptInstructions.get_general_prompt()
+        
+        # Select examples based on type
+        if examples_type == "financial":
+            examples = ReportExamples.get_financial_examples()
+        elif examples_type == "legal":
+            examples = ReportExamples.get_legal_examples()
+        else:  # default to medical
+            examples = ReportExamples.get_medical_examples()
         
         result = lx.extract(
             text_or_documents=input_text,
-            prompt_description=ExtractionPrompts.get_medical_prompt(),
-            examples=ExtractionPrompts.get_medical_examples(),
+            prompt_description=prompt,
+            examples=examples,
             model_id=self.config.MODEL_ID,
             api_key=self.config.LANGEXTRACT_API_KEY,
         )

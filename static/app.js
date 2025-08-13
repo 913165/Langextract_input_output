@@ -32,17 +32,48 @@ function setupEventListeners() {
 }
 
 function loadSampleData() {
-    // Load sample medical report data similar to the image
-    const sampleText = `REPORT TYPE: Adverse Event
-PATIENT: 54-year-old female
-DRUG: Drug LMN
-EVENT: Severe rash and pruritus after 3 days of therapy.
-ACTIONS: Drug discontinued, antihistamines administered.
-OUTCOME: Rash resolved within 5 days.
-CONCLUSIONS:
-Likely drug-induced hypersensitivity reaction.`;
+    const sampleText = `PROTOCOL NUMBER: CARDIO-HTN-2024-892
+STUDY TITLE: Phase III Double-Blind Study of Antihypertensive Agent ACE-X47
+PRINCIPAL INVESTIGATOR: Dr. Michael Rodriguez, MD
+REGULATORY STATUS: FDA IND 67891, EMA CTA 2024-002847-33
+IRB APPROVAL: Metropolitan Medical Center IRB #2024-1456, Approved August 22, 2024
+
+EFFICACY ANALYSIS:
+Primary endpoint of systolic blood pressure reduction was achieved with statistical significance. Mean reduction from baseline was 18.4 mmHg in the treatment group versus 3.2 mmHg in placebo group (p<0.001). Diastolic blood pressure decreased by 11.7 mmHg versus 1.8 mmHg respectively (p<0.001). Response rate, defined as achieving target blood pressure <140/90 mmHg, was 78.3% in active treatment versus 24.1% in placebo group. Time to blood pressure control was significantly shorter at 4.2 weeks compared to 12.8 weeks.
+
+PHARMACOKINETIC PARAMETERS:
+Peak plasma concentration was reached at 2.8 hours post-dose. Half-life was 14.6 hours, supporting once-daily dosing. Steady-state achieved by day 5 with no significant accumulation.
+
+SAFETY PROFILE:
+Treatment-emergent adverse events occurred in 42% of patients versus 38% placebo. Most common events were dizziness (8.1%), headache (6.3%), and fatigue (4.7%). No serious drug-related adverse events reported. Laboratory parameters remained stable throughout the study period.
+
+DOSING RECOMMENDATIONS:
+Initiate therapy at 10mg once daily. Titrate to 20mg daily after 2 weeks if blood pressure target not achieved. Maximum recommended dose is 40mg daily.
+
+REGULATORY COMPLIANCE:
+Study conducted per Good Clinical Practice guidelines and FDA 21 CFR Part 312 requirements.`;
     
     document.getElementById('inputText').value = sampleText;
+}
+
+function getDocumentType() {
+    // Get the selected document type from checkboxes
+    const useClinicalTrialExamples = document.getElementById('lxPrompt').checked;
+    const useDrugSafetyExamples = document.getElementById('lxData').checked;
+    
+    // Determine examples type based on checkboxes
+    let examplesType = "medical"; // default to medical examples
+    
+    if (useDrugSafetyExamples) {
+        examplesType = "legal"; // Use legal examples for drug safety (regulatory focus)
+    } else if (useClinicalTrialExamples) {
+        examplesType = "medical"; // Use medical examples for clinical trials
+    } else {
+        // Neither checked - use medical examples (default)
+        examplesType = "medical";
+    }
+    
+    return { examplesType };
 }
 
 async function processText() {
@@ -62,10 +93,16 @@ async function processText() {
     sourceMapping.classList.remove('visible');
     
     try {
+        // Get document type selection
+        const { examplesType } = getDocumentType();
+        
         const response = await fetch('/predict', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ text: inputText })
+            body: JSON.stringify({ 
+                text: inputText,
+                examples_type: examplesType
+            })
         });
         
         const data = await response.json();
@@ -78,12 +115,12 @@ async function processText() {
         // Process and display the results
         displayExtractions(inputText, data.result);
         
-        // Show success message with extraction count
-        if (data.extractions_count) {
-            showNotification(`Extraction completed! Found ${data.extractions_count} entities.`, 'success');
-        } else {
-            showNotification('Extraction completed successfully!', 'success');
+        // Show success message with extraction count and type info
+        let message = `Extraction completed! Found ${data.extractions_count} entities.`;
+        if (data.examples_type) {
+            message += ` (Examples: ${data.examples_type})`;
         }
+        showNotification(message, 'success');
         
     } catch (err) {
         outputContent.innerHTML = `<p style="color: #ff6b6b;">Error: ${err.message}</p>`;
@@ -125,12 +162,12 @@ function displayExtractions(inputText, result) {
     // Group extractions by class for better organization
     const groupedExtractions = groupExtractionsByClass(result.extractions);
     
-    // Display each group
+    // Display each group with medical findings styling
     Object.keys(groupedExtractions).forEach(className => {
         const extractions = groupedExtractions[className];
         const displayName = formatClassName(className);
         
-        outputHTML += `<div class="extraction-group">`;
+        outputHTML += `<div class="extraction-group" data-category="${className}">`;
         outputHTML += `<h4>${displayName}:</h4>`;
         
         extractions.forEach((extraction, index) => {
@@ -384,4 +421,3 @@ function highlightEntitiesInInput(inputText, extractions) {
     
     return highlightedText;
 }
-
